@@ -41,13 +41,12 @@ int main(int argc, char **argv) {
 
   int res = 0;
   auto not_visited = vector<vector<bool>>();
-  transform(matrix.begin(), matrix.end(), back_inserter(not_visited),
-            [](vector<cell> c) { return vector<bool>(c.size(), 1); });
+  for(auto r : matrix)
+    not_visited.push_back(vector<bool>(r.size(), 1));
+  
   while (!exit) {
     int i = pos.first + cycle[dir][0];
     int j = pos.second + cycle[dir][1];
-
-    
 
     if (i < 0 || i >= matrix.size() || j < 0 || j >= matrix[0].size())
       exit = true;
@@ -55,11 +54,13 @@ int main(int argc, char **argv) {
       pos = {i, j};
       res += not_visited[i][j];
       if (not_visited[i][j] == 1)
-        not_visited[i][j] == 0;
-    } else
+        not_visited[i][j] = 0;
+    } else{
       dir = (dir + 1) % 4;
+      cout << "new dir: " << dir << endl;
+    }
   }
-
+ 
   cout << res << endl;
   return 0;
 }
